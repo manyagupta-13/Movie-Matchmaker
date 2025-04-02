@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 300px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .toggle {
+            margin-top: 10px;
+            color: blue;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="loginContainer">
+        <h2>Login</h2>
+        <input type="text" id="loginUser" placeholder="Username" required>
+        <input type="password" id="loginPass" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <p class="toggle" onclick="toggleForm()">Don't have an account? Sign up</p>
+        <p class="error" id="loginError"></p>
+    </div>
+
+    <div class="container" id="signupContainer" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" id="signupUser" placeholder="Username" required>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPass" placeholder="Password" required>
+        <button onclick="signup()">Sign Up</button>
+        <p class="toggle" onclick="toggleForm()">Already have an account? Login</p>
+        <p class="error" id="signupError"></p>
+    </div>
+
+    <script>
+        function toggleForm() {
+            document.getElementById('loginContainer').style.display = 
+                document.getElementById('loginContainer').style.display === 'none' ? 'block' : 'none';
+            document.getElementById('signupContainer').style.display = 
+                document.getElementById('signupContainer').style.display === 'none' ? 'block' : 'none';
+        }
+
+        function login() {
+            const username = document.getElementById('loginUser').value;
+            const password = document.getElementById('loginPass').value;
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+
+            if (users[username] && users[username] === password) {
+                alert('Logged in as ' + username);
+                window.location.href = 'genrePage.html'; // Redirects to genrePage.html
+            } else {
+                document.getElementById('loginError').innerText = 'Invalid username or password';
+            }
+        }
+
+        function signup() {
+            const username = document.getElementById('signupUser').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPass').value;
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+
+            if (users[username]) {
+                document.getElementById('signupError').innerText = 'Username already exists. Choose another.';
+                return;
+            }
+            
+            users[username] = password;
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Signed up successfully! You can now log in.');
+            toggleForm();
+        }
+    </script>
+</body>
+</html>
