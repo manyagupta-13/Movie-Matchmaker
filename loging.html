@@ -11,62 +11,92 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            margin: 0;
+            background-image: url("movie matchmaker background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
         .container {
-            width: 300px;
-            padding: 20px;
+            width: 350px;
+            padding: 25px;
             background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
             text-align: center;
         }
-        input {
+        h2 {
+            color: #9ab07e;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+        }
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 8px 0;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 16px;
         }
         button {
-            width: 100%;
-            padding: 10px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            width: 95%;
+            padding: 12px;
+            background-color: white;
+            border: 2px solid #9ab07e;
+            color: #9ab07e;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            transition: 0.3s;
             cursor: pointer;
+            margin-top: 10px;
         }
         button:hover {
-            background: #218838;
+            background-color: #9ab07e;
+            color: white;
         }
         .toggle {
-            margin-top: 10px;
-            color: blue;
+            margin-top: 15px;
+            color: #9ab07e;
             cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .toggle:hover {
+            transform: scale(1.05);
+            font-weight: bold;
         }
         .error {
             color: red;
             font-size: 14px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container" id="loginContainer">
         <h2>Login</h2>
-        <input type="text" id="loginUser" placeholder="Username" required>
-        <input type="password" id="loginPass" placeholder="Password" required>
-        <button onclick="login()">Login</button>
+        <div class="form-group">
+            <input type="text" id="loginUser" placeholder="Username" required>
+            <input type="password" id="loginPass" placeholder="Password" required>
+            <button onclick="login()">Login</button>
+        </div>
         <p class="toggle" onclick="toggleForm()">Don't have an account? Sign up</p>
         <p class="error" id="loginError"></p>
     </div>
 
     <div class="container" id="signupContainer" style="display: none;">
         <h2>Sign Up</h2>
-        <input type="text" id="signupUser" placeholder="Username" required>
-        <input type="email" id="signupEmail" placeholder="Email" required>
-        <input type="password" id="signupPass" placeholder="Password" required>
-        <button onclick="signup()">Sign Up</button>
+        <div class="form-group">
+            <input type="text" id="signupUser" placeholder="Username" required>
+            <input type="password" id="signupPass" placeholder="Password" required>
+            <button onclick="signup()">Sign Up</button>
+        </div>
         <p class="toggle" onclick="toggleForm()">Already have an account? Login</p>
         <p class="error" id="signupError"></p>
     </div>
@@ -94,7 +124,6 @@
 
         function signup() {
             const username = document.getElementById('signupUser').value;
-            const email = document.getElementById('signupEmail').value;
             const password = document.getElementById('signupPass').value;
             const users = JSON.parse(localStorage.getItem('users')) || {};
 

@@ -4,36 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url("movie matchmaker background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+        }
+        #movie-container {
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .navigation {
+            margin-top: 20px;
+        }
+        button {
+            background-color: white;
+            border: 2px solid #9ab07e;
+            color: #9ab07e;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: 0.4s;
+            cursor: pointer;
+            flex: 1 1 30%; /* Each button takes about 30% of row */
+            max-width: 200px;
+            text-align: center;
+        }
+
+        button:hover {
+            background-color: #9ab07e;
+            color: white;
+        }
+
+        button:disabled {
+            background-color: white;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
     <h1>Movies List</h1>
-    <div id="movies"></div>
-
+    <div id="movie-container">Loading...</div>
+    <div class="navigation">
+        <button id="prev" onclick="prevMovie()" disabled>⬅ Previous</button>
+        <button id="next" onclick="nextMovie()">Next ➡</button>
+    </div>
+    
     <script>
-        const apiKey = "7c796889"; // Replace with your API key
+        const apiKey = "400db1b32588ba89229a9b793adb3cd8"; 
         const urlParams = new URLSearchParams(window.location.search);
-        const genre = urlParams.get("genre");
+        const genreName = urlParams.get("genre");
+        let allMovies = [];
+        let currentMovieIndex = 0;
+
+        async function fetchGenres() {
+            const response = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`);
+            const data = await response.json();
+            return data.genres.find(g => g.name.toLowerCase() === genreName?.toLowerCase())?.id;
+        }
 
         async function fetchMovies() {
-            const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=movie&type=movie`);
-            const data = await response.json();
-            
-            if (!data.Search) {
-                document.getElementById("movies").innerHTML = "<p>No movies found.</p>";
+            const genreId = await fetchGenres();
+            if (!genreId) {
+                document.getElementById("movie-container").innerHTML = "<p>Invalid genre.</p>";
                 return;
             }
+            
+            const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreId}&language=en-US&page=1`);
+            const data = await response.json();
+            allMovies = data.results || [];
+            displayMovie();
+        }
 
-            // Filter movies by fetching details for each one
-            const filteredMovies = await Promise.all(
-                data.Search.map(async (movie) => {
-                    const detailsResponse = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${movie.imdbID}`);
-                    const detailsData = await detailsResponse.json();
-                    return detailsData.Genre.includes(genre) ? `<p>${detailsData.Title} (${detailsData.Year})</p>` : null;
-                })
-            );
+        function displayMovie() {
+            if (allMovies.length === 0) {
+                document.getElementById("movie-container").innerHTML = "<p>No movies found.</p>";
+                return;
+            }
+            
+            const movie = allMovies[currentMovieIndex];
+            document.getElementById("movie-container").innerHTML = `<p>${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})</p>`;
+            
+            document.getElementById("prev").disabled = currentMovieIndex === 0;
+            document.getElementById("next").disabled = currentMovieIndex === allMovies.length - 1;
+        }
 
-            // Display filtered movies
-            document.getElementById("movies").innerHTML = filteredMovies.filter(Boolean).join("") || "<p>No movies found for this genre.</p>";
+        function nextMovie() {
+            if (currentMovieIndex < allMovies.length - 1) {
+                currentMovieIndex++;
+                displayMovie();
+            }
+        }
+
+        function prevMovie() {
+            if (currentMovieIndex > 0) {
+                currentMovieIndex--;
+                displayMovie();
+            }
         }
 
         fetchMovies();

@@ -4,6 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Genres</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url("movie matchmaker background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .genre {
+            background-color: white;
+            border: 2px solid #9ab07e;
+            color: #9ab07e;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: 0.4s;
+            cursor: pointer;
+            flex: 1 1 30%; /* Each button takes about 30% of row */
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .genre:hover {
+            background-color: #9ab07e;
+            color: white;
+        }
+    </style>
     <script>
         function goToGenrePage(genre) {
             window.location.href = `movies.html?genre=${genre}`;
@@ -11,9 +65,29 @@
     </script>
 </head>
 <body>
-    <h1>Select a Genre</h1>
-    <button onclick="goToGenrePage('Action')">Action</button>
-    <button onclick="goToGenrePage('Comedy')">Comedy</button>
-    <button onclick="goToGenrePage('Drama')">Drama</button>
+    <div class="container">
+        <h1 style="color:#9ab07e;">Select a Genre</h1>
+        <div class="button-container">
+            <button class="genre" onclick="goToGenrePage('Action')">Action</button>
+            <button class="genre" onclick="goToGenrePage('Adventure')">Adventure</button>
+            <button class="genre" onclick="goToGenrePage('Animation')">Animation</button>
+            <button class="genre" onclick="goToGenrePage('Biography')">Biography</button>
+            <button class="genre" onclick="goToGenrePage('Comedy')">Comedy</button>
+            <button class="genre" onclick="goToGenrePage('Crime')">Crime</button>
+            <button class="genre" onclick="goToGenrePage('Documentary')">Documentary</button>
+            <button class="genre" onclick="goToGenrePage('Drama')">Drama</button>
+            <button class="genre" onclick="goToGenrePage('Family')">Family</button>
+            <button class="genre" onclick="goToGenrePage('Fantasy')">Fantasy</button>
+            <button class="genre" onclick="goToGenrePage('History')">History</button>
+            <button class="genre" onclick="goToGenrePage('Horror')">Horror</button>
+            <button class="genre" onclick="goToGenrePage('Music')">Music</button>
+            <button class="genre" onclick="goToGenrePage('Mystery')">Mystery</button>
+            <button class="genre" onclick="goToGenrePage('Romance')">Romance</button>
+            <button class="genre" onclick="goToGenrePage('Science Fiction')">Science Fiction</button>
+            <button class="genre" onclick="goToGenrePage('Thriller')">Thriller</button>
+            <button class="genre" onclick="goToGenrePage('War')">War</button>
+            <button class="genre" onclick="goToGenrePage('Western')">Western</button>
+        </div>
+    </div>
 </body>
 </html>
