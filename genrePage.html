@@ -57,10 +57,35 @@
             background-color: #9ab07e;
             color: white;
         }
+
+        .nav-button {
+            background-color: #9ab07e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.4s;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background-color: #7a9b6b;
+        }
     </style>
     <script>
         function goToGenrePage(genre) {
             window.location.href = `movies.html?genre=${genre}`;
+        }
+
+        function goToToBeWatchedPage() {
+            window.location.href = "toBeWatched.html";
+        }
+
+        function goToAlreadyWatchedPage() {
+            window.location.href = "alreadyWatched.html";
         }
     </script>
 </head>
@@ -87,6 +112,12 @@
             <button class="genre" onclick="goToGenrePage('Thriller')">Thriller</button>
             <button class="genre" onclick="goToGenrePage('War')">War</button>
             <button class="genre" onclick="goToGenrePage('Western')">Western</button>
+        </div>
+        
+        <!-- Navigation buttons for the lists -->
+        <div class="button-container">
+            <button class="nav-button" onclick="goToToBeWatchedPage()">To Be Watched</button>
+            <button class="nav-button" onclick="goToAlreadyWatchedPage()">Already Watched</button>
         </div>
     </div>
 </body>
